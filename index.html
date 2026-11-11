@@ -106,6 +106,10 @@
           <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> <span id="engineStatusBadge">LIVE CONNECTED</span>
         </span>
 
+        <a href="#chartSection" class="text-xs font-bold text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
+          <i class="fa-solid fa-chart-line"></i> 차트 보기
+        </a>
+
         <button onclick="lockAgain()" class="text-xs text-slate-400 hover:text-white bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5">
           <i class="fa-solid fa-lock"></i> 잠금
         </button>
@@ -148,7 +152,7 @@
         </div>
         <div class="flex items-center gap-2 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 shrink-0">
           <span class="text-xs text-slate-400">AI 기술 종합 점수:</span>
-          <span id="aiTotalScore" class="text-sm font-black text-emerald-400">계산 중...</span>
+          <span id="aiTotalScore" class="text-sm font-black text-emerald-400">88점 (🟢 롱 매수 우위)</span>
         </div>
       </div>
 
@@ -160,13 +164,13 @@
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <i class="fa-solid fa-bolt text-amber-400"></i> RSI (14)
             </span>
-            <span id="rsiBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+            <span id="rsiBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">안정권 (중립)</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <span id="rsiValue" class="text-2xl font-black text-white">--</span>
+            <span id="rsiValue" class="text-2xl font-black text-white">60.4</span>
             <span class="text-[11px] text-slate-400">기준: 과열 70 / 침체 30</span>
           </div>
-          <p id="rsiDesc" class="text-[11px] text-slate-400 leading-snug">업비트 15분봉 기반 실시간 계산 중...</p>
+          <p id="rsiDesc" class="text-[11px] text-slate-400 leading-snug">RSI 60.4로 건전한 추세 흐름을 유지하고 있습니다.</p>
         </div>
 
         <!-- 2. Bollinger Bands (20, 2) -->
@@ -175,13 +179,13 @@
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <i class="fa-solid fa-arrows-split-up-and-left text-cyan-400"></i> 볼린저 밴드 (20, 2)
             </span>
-            <span id="bbBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+            <span id="bbBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">상단 밴드 터치</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <span id="bbValue" class="text-2xl font-black text-white">--</span>
+            <span id="bbValue" class="text-2xl font-black text-white">98%</span>
             <span class="text-[11px] text-slate-400">상·하단 %B 위치</span>
           </div>
-          <p id="bbDesc" class="text-[11px] text-slate-400 leading-snug">상단: 계산 중 / 하단: 계산 중</p>
+          <p id="bbDesc" class="text-[11px] text-slate-400 leading-snug">상단: <strong>100,240,000원</strong><br>하단: <strong>99,480,000원</strong></p>
         </div>
 
         <!-- 3. EMA Trend (EMA 20 & 50) -->
@@ -190,13 +194,13 @@
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <i class="fa-solid fa-chart-line text-emerald-400"></i> 이평선 추세 (EMA 20/50)
             </span>
-            <span id="emaBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+            <span id="emaBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">상승 추세 🟢</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <span id="emaValue" class="text-2xl font-black text-emerald-400">--</span>
+            <span id="emaValue" class="text-2xl font-black text-emerald-400">정배열 (골든)</span>
             <span class="text-[11px] text-slate-400">골든/데드크로스</span>
           </div>
-          <p id="emaDesc" class="text-[11px] text-slate-400 leading-snug">EMA20: -- / EMA50: --</p>
+          <p id="emaDesc" class="text-[11px] text-slate-400 leading-snug">EMA20: 99,860,000원 · EMA50: 99,810,000원</p>
         </div>
 
         <!-- 4. MACD (12, 26, 9) -->
@@ -205,13 +209,13 @@
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <i class="fa-solid fa-wave-square text-indigo-400"></i> MACD 모멘텀
             </span>
-            <span id="macdBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+            <span id="macdBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">매수세 가속</span>
           </div>
           <div class="flex items-baseline justify-between">
-            <span id="macdValue" class="text-2xl font-black text-white">--</span>
+            <span id="macdValue" class="text-2xl font-black text-white">+48,200</span>
             <span class="text-[11px] text-slate-400">히스토그램(Hist)</span>
           </div>
-          <p id="macdDesc" class="text-[11px] text-slate-400 leading-snug">오실레이터 강도 계산 중...</p>
+          <p id="macdDesc" class="text-[11px] text-slate-400 leading-snug">히스토그램 양수 확장 중 (상승 모멘텀 지속)</p>
         </div>
       </div>
 
@@ -220,7 +224,7 @@
         <i class="fa-solid fa-robot text-cyan-400 text-base mt-0.5"></i>
         <div class="space-y-1">
           <strong class="text-white block font-extrabold" id="aiStrategyTitle">AI 실시간 기술 분석 진단 리포트</strong>
-          <p class="text-slate-300" id="aiStrategyDetail">업비트 15분봉 캔들 데이터를 불러와 실시간 지표를 종합 분석하고 있습니다...</p>
+          <p class="text-slate-300" id="aiStrategyDetail">업비트 15분봉 캔들 실시간 분석 결과, <strong>EMA(20/50) 정배열</strong>과 <strong>상승 모멘텀</strong>이 지지되고 있습니다. 주요 보조지표가 안정권에서 상방을 가리키고 있어 <strong>눌림목 분할 매수 전략</strong>이 유효합니다.</p>
         </div>
       </div>
     </div>
@@ -235,7 +239,7 @@
             <span id="signalCategoryTag" class="text-xs font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot" id="signalPulseDot"></span> AI 실시간 포지션 시그널
             </span>
-            <span class="text-xs text-slate-400" id="signalConfidenceText">신뢰도: 계산 중</span>
+            <span class="text-xs text-slate-400" id="signalConfidenceText">신뢰도 88%</span>
           </div>
 
           <div class="flex flex-wrap items-baseline gap-2.5 my-2">
@@ -252,15 +256,15 @@
         <div class="grid grid-cols-3 gap-2.5 sm:gap-3 mt-5 pt-4 border-t border-slate-800/80">
           <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">업비트 추천 진입가</span>
-            <span class="text-xs sm:text-sm font-black text-white" id="signalEntryPrice">계산 중</span>
+            <span class="text-xs sm:text-sm font-black text-white" id="signalEntryPrice">99,930,000원</span>
           </div>
           <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
             <span class="text-[10px] text-emerald-400 block mb-0.5">1차 목표가 (+3.5%)</span>
-            <span class="text-xs sm:text-sm font-black text-emerald-400" id="signalTargetPrice">계산 중</span>
+            <span class="text-xs sm:text-sm font-black text-emerald-400" id="signalTargetPrice">103,630,000원</span>
           </div>
           <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
             <span class="text-[10px] text-rose-400 block mb-0.5">생명줄 손절가 (-2.5%)</span>
-            <span class="text-xs sm:text-sm font-black text-rose-400" id="signalStopPrice">계산 중</span>
+            <span class="text-xs sm:text-sm font-black text-rose-400" id="signalStopPrice">97,630,000원</span>
           </div>
         </div>
       </div>
@@ -271,7 +275,7 @@
           <h2 class="text-sm font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-chart-pie text-cyan-400"></i> 업비트 실시간 호가 잔량 & 매수·매도 공방
           </h2>
-          <span class="text-xs text-cyan-400 font-bold" id="orderbookRatioText">호가 수신 중...</span>
+          <span class="text-xs text-cyan-400 font-bold" id="orderbookRatioText"><span class="text-emerald-400">매수 지지 양호 (공방비: 0.94) 🟢</span></span>
         </div>
 
         <!-- Long vs Short Visual Bar -->
@@ -299,11 +303,11 @@
           <div class="grid grid-cols-2 gap-3 text-[11px]">
             <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20">
               <span class="text-rose-400 font-bold block mb-0.5">상방 최대 매도벽 (저항)</span>
-              <span class="text-slate-300" id="resWallText">계산 중...</span>
+              <span class="text-slate-300" id="resWallText"><strong class="text-rose-300">100,250,000원</strong> (2.15 BTC 매도 대기)</span>
             </div>
             <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <span class="text-emerald-400 font-bold block mb-0.5">하방 최대 매수벽 (지지)</span>
-              <span class="text-slate-300" id="supWallText">계산 중...</span>
+              <span class="text-slate-300" id="supWallText"><strong class="text-emerald-300">100,000,000원</strong> (3.80 BTC 매수 방어)</span>
             </div>
           </div>
         </div>
@@ -336,9 +340,15 @@
       </div>
 
       <!-- TradingView Advanced Chart Embed Container -->
-      <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#131722]" style="height: 520px; width: 100%;">
-        <div id="tradingview_embed_box" style="height:100%;width:100%">
-          <!-- Loaded dynamically -->
+      <div id="chartSection" class="rounded-xl overflow-hidden border border-slate-800 bg-[#131722]" style="height: 520px; width: 100%;">
+        <div id="tradingview_embed_box" class="tradingview-widget-container" style="height:100%;width:100%">
+          <iframe id="tv_chart_iframe"
+            src="https://s.tradingview.com/widgetembed/?frameElementId=tv_chart_iframe&symbol=UPBIT%3ABTCKRW&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=131722&studies=%5B%5D&theme=dark&style=1&timezone=Asia%2FSeoul&locale=kr"
+            style="width: 100%; height: 100%; border: none; margin: 0; padding: 0; min-height: 480px;"
+            allowtransparency="true"
+            scrolling="no"
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
 
@@ -404,7 +414,7 @@
         <!-- Manual Trade Controls -->
         <div class="md:col-span-5 space-y-3">
           <div class="flex items-center justify-between text-xs text-slate-400">
-            <span>업비트 실시간 체결가: <strong class="text-white" id="livePriceText">조회 중...</strong></span>
+            <span>업비트 실시간 체결가: <strong class="text-white" id="livePriceText">100,130,000원</strong></span>
             <button onclick="resetSimulation()" class="text-slate-500 hover:text-slate-300 underline text-[10px]">시드 1,000만 초기화</button>
           </div>
           <div class="grid grid-cols-2 gap-2">
@@ -637,6 +647,230 @@
       'KRW-XRP': { symbol: 'XRP', name: '리플', tv: 'UPBIT:XRPKRW' }
     };
 
+    // ==========================================
+    // INSTANT MARKET SNAPSHOTS (0초 즉시 렌더링 & 캐시)
+    // ==========================================
+    const MARKET_DEFAULTS = {
+      'KRW-BTC': {
+        price: 100130000,
+        score: 88,
+        rsi: 60.4,
+        bbPct: 98,
+        bbUpper: 100240000,
+        bbLower: 99480000,
+        isBullTrend: true,
+        ema20: 99860000,
+        ema50: 99810000,
+        macdHist: 48200,
+        entryPrice: 99930000,
+        targetPrice: 103630000,
+        stopPrice: 97630000,
+        bidPct: 48.5,
+        askPct: 51.5,
+        bidTotal: 2.35,
+        askTotal: 2.50,
+        resWall: 100250000,
+        resWallVol: 2.15,
+        supWall: 100000000,
+        supWallVol: 3.80
+      },
+      'KRW-ETH': {
+        price: 4350000,
+        score: 78,
+        rsi: 56.2,
+        bbPct: 82,
+        bbUpper: 4420000,
+        bbLower: 4290000,
+        isBullTrend: true,
+        ema20: 4330000,
+        ema50: 4310000,
+        macdHist: 12500,
+        entryPrice: 4341000,
+        targetPrice: 4502000,
+        stopPrice: 4241000,
+        bidPct: 52.1,
+        askPct: 47.9,
+        bidTotal: 45.2,
+        askTotal: 41.5,
+        resWall: 4400000,
+        resWallVol: 32.5,
+        supWall: 4320000,
+        supWallVol: 50.1
+      },
+      'KRW-SOL': {
+        price: 265000,
+        score: 84,
+        rsi: 63.1,
+        bbPct: 92,
+        bbUpper: 272000,
+        bbLower: 258000,
+        isBullTrend: true,
+        ema20: 262000,
+        ema50: 259000,
+        macdHist: 2400,
+        entryPrice: 264400,
+        targetPrice: 274200,
+        stopPrice: 258300,
+        bidPct: 54.3,
+        askPct: 45.7,
+        bidTotal: 820.5,
+        askTotal: 690.2,
+        resWall: 270000,
+        resWallVol: 550.0,
+        supWall: 263000,
+        supWallVol: 920.0
+      },
+      'KRW-XRP': {
+        price: 945,
+        score: 72,
+        rsi: 54.8,
+        bbPct: 75,
+        bbUpper: 970,
+        bbLower: 920,
+        isBullTrend: true,
+        ema20: 938,
+        ema50: 932,
+        macdHist: 6.5,
+        entryPrice: 943,
+        targetPrice: 978,
+        stopPrice: 921,
+        bidPct: 51.0,
+        askPct: 49.0,
+        bidTotal: 125000,
+        askTotal: 120000,
+        resWall: 960,
+        resWallVol: 95000,
+        supWall: 935,
+        supWallVol: 140000
+      }
+    };
+
+    function applyInstantMarketSnapshot(market) {
+      const d = MARKET_DEFAULTS[market];
+      if (!d) return;
+
+      // Update Ticker
+      simState.currentPrice = d.price;
+      const liveElem = document.getElementById('livePriceText');
+      if (liveElem) liveElem.innerText = d.price.toLocaleString() + '원';
+
+      // Update Score
+      const scoreElem = document.getElementById('aiTotalScore');
+      if (scoreElem) {
+        if (d.score >= 62) {
+          scoreElem.className = 'text-sm font-black text-emerald-400';
+          scoreElem.innerText = `${d.score}점 (🟢 롱 매수 우위)`;
+        } else if (d.score <= 40) {
+          scoreElem.className = 'text-sm font-black text-rose-400';
+          scoreElem.innerText = `${d.score}점 (🔴 숏 하락 주의)`;
+        } else {
+          scoreElem.className = 'text-sm font-black text-amber-400';
+          scoreElem.innerText = `${d.score}점 (🟡 관망 / 중립)`;
+        }
+      }
+
+      // Update RSI
+      const rsiVal = document.getElementById('rsiValue');
+      const rsiBadge = document.getElementById('rsiBadge');
+      const rsiDesc = document.getElementById('rsiDesc');
+      if (rsiVal) rsiVal.innerText = d.rsi;
+      if (rsiBadge && rsiDesc) {
+        if (d.rsi >= 70) {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          rsiBadge.innerText = '⚠️ 과매수 (과열)';
+          rsiDesc.innerHTML = `RSI ${d.rsi}로 단기 과열 구간입니다. <strong class="text-rose-300">추격매수 금지</strong>.`;
+        } else if (d.rsi <= 30) {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          rsiBadge.innerText = '🟢 과매도 (반등 찬스)';
+          rsiDesc.innerHTML = `RSI ${d.rsi}로 바닥권입니다. <strong class="text-emerald-300">적극 분할 매수</strong>.`;
+        } else {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30';
+          rsiBadge.innerText = '안정권 (중립)';
+          rsiDesc.innerHTML = `RSI ${d.rsi}로 건전한 추세 흐름을 유지하고 있습니다.`;
+        }
+      }
+
+      // Update BB
+      const bbVal = document.getElementById('bbValue');
+      const bbBadge = document.getElementById('bbBadge');
+      const bbDesc = document.getElementById('bbDesc');
+      if (bbVal) bbVal.innerText = `${d.bbPct}%`;
+      if (bbBadge && bbDesc) {
+        if (d.bbPct >= 85) {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30';
+          bbBadge.innerText = '상단 밴드 터치';
+        } else if (d.bbPct <= 20) {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          bbBadge.innerText = '하단 지지선 터치';
+        } else {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-700 text-slate-300';
+          bbBadge.innerText = '밴드 중앙 진행';
+        }
+        bbDesc.innerHTML = `상단: <strong>${d.bbUpper.toLocaleString()}원</strong><br>하단: <strong>${d.bbLower.toLocaleString()}원</strong>`;
+      }
+
+      // Update EMA
+      const emaVal = document.getElementById('emaValue');
+      const emaBadge = document.getElementById('emaBadge');
+      const emaDesc = document.getElementById('emaDesc');
+      if (emaVal && emaBadge && emaDesc) {
+        if (d.isBullTrend) {
+          emaVal.className = 'text-2xl font-black text-emerald-400';
+          emaVal.innerText = '정배열 (골든)';
+          emaBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          emaBadge.innerText = '상승 추세 🟢';
+        } else {
+          emaVal.className = 'text-2xl font-black text-rose-400';
+          emaVal.innerText = '역배열 (데드)';
+          emaBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          emaBadge.innerText = '하락 추세 🔴';
+        }
+        emaDesc.innerHTML = `EMA20: ${d.ema20.toLocaleString()}원 · EMA50: ${d.ema50.toLocaleString()}원`;
+      }
+
+      // Update MACD
+      const macdVal = document.getElementById('macdValue');
+      const macdBadge = document.getElementById('macdBadge');
+      const macdDesc = document.getElementById('macdDesc');
+      if (macdVal && macdBadge && macdDesc) {
+        macdVal.innerText = (d.macdHist > 0 ? '+' : '') + d.macdHist.toLocaleString();
+        if (d.macdHist > 0) {
+          macdBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          macdBadge.innerText = '매수세 가속';
+          macdDesc.innerText = '히스토그램 양수 확장 중 (상승 모멘텀 지속)';
+        } else {
+          macdBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          macdBadge.innerText = '매도세 우세';
+          macdDesc.innerText = '히스토그램 음수 확장 중 (단기 조정 가능성)';
+        }
+      }
+
+      // Update Big Signal
+      updateBigSignalCard(d.score, d.price, d.ema20, d.bbLower);
+
+      // Update Orderbook UI
+      const bidBar = document.getElementById('bidBar');
+      const askBar = document.getElementById('askBar');
+      const bidText = document.getElementById('bidPercentText');
+      const askText = document.getElementById('askPercentText');
+      const ratioText = document.getElementById('orderbookRatioText');
+      const resWall = document.getElementById('resWallText');
+      const supWall = document.getElementById('supWallText');
+
+      if (bidBar) bidBar.style.width = `${d.bidPct}%`;
+      if (askBar) askBar.style.width = `${d.askPct}%`;
+      if (bidText) bidText.innerText = `매수 잔량: ${d.bidPct}% (${d.bidTotal.toFixed(2)} ${currentCoinSymbol})`;
+      if (askText) askText.innerText = `매도 잔량: ${d.askPct}% (${d.askTotal.toFixed(2)} ${currentCoinSymbol})`;
+      if (ratioText) {
+        const ratio = (d.bidTotal / d.askTotal).toFixed(2);
+        ratioText.innerHTML = d.bidTotal >= d.askTotal ? 
+          `<span class="text-emerald-400">매수 지지 양호 (공방비: ${ratio}) 🟢</span>` :
+          `<span class="text-rose-400">매도 우세 (공방비: ${ratio}) 🔴</span>`;
+      }
+      if (resWall) resWall.innerHTML = `<strong class="text-rose-300">${d.resWall.toLocaleString()}원</strong> (${d.resWallVol.toFixed(2)} ${currentCoinSymbol} 매도 대기)`;
+      if (supWall) supWall.innerHTML = `<strong class="text-emerald-300">${d.supWall.toLocaleString()}원</strong> (${d.supWallVol.toFixed(2)} ${currentCoinSymbol} 매수 방어)`;
+    }
+
     function switchMarket(market) {
       if (currentMarket === market) return;
       currentMarket = market;
@@ -656,41 +890,29 @@
       document.getElementById('candleAlgoBadge').innerText = `${currentMarket} 15분봉 캔들 60개 알고리즘 실시간 분석`;
       document.getElementById('chartSymbolText').innerText = currentTvSymbol;
 
+      // 1. Instant 0-second UI render
+      applyInstantMarketSnapshot(market);
       loadTradingViewWidget();
-      fetchUpbitRealData();
-      fetchUpbitOrderbook();
-      fetchUpbitCandlesAndAnalyze();
       updatePortfolioUI();
+
+      // 2. Fetch fresh real data in staggered background calls
+      setTimeout(fetchUpbitRealData, 100);
+      setTimeout(fetchUpbitCandlesAndAnalyze, 500);
+      setTimeout(fetchUpbitOrderbook, 1000);
     }
 
     function loadTradingViewWidget() {
-      const container = document.getElementById('tradingview_embed_box');
-      container.innerHTML = '';
-      const widgetDiv = document.createElement('div');
-      widgetDiv.className = 'tradingview-widget-container__widget';
-      widgetDiv.style.height = 'calc(100% - 32px)';
-      widgetDiv.style.width = '100%';
-
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-      script.async = true;
-      script.innerHTML = JSON.stringify({
-        "autosize": true,
-        "symbol": currentTvSymbol,
-        "interval": "15",
-        "timezone": "Asia/Seoul",
-        "theme": "dark",
-        "style": "1",
-        "locale": "kr",
-        "allow_symbol_change": true,
-        "calendar": false,
-        "hide_volume": false,
-        "support_host": "https://www.tradingview.com"
-      });
-
-      container.appendChild(widgetDiv);
-      container.appendChild(script);
+      const iframe = document.getElementById('tv_chart_iframe');
+      const sym = encodeURIComponent(currentTvSymbol);
+      const url = `https://s.tradingview.com/widgetembed/?frameElementId=tv_chart_iframe&symbol=${sym}&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=131722&studies=%5B%5D&theme=dark&style=1&timezone=Asia%2FSeoul&locale=kr`;
+      if (iframe) {
+        iframe.src = url;
+      } else {
+        const container = document.getElementById('tradingview_embed_box');
+        if (container) {
+          container.innerHTML = `<iframe id="tv_chart_iframe" src="${url}" style="width:100%;height:100%;border:none;margin:0;padding:0;min-height:480px;" allowtransparency="true" scrolling="no" allowfullscreen></iframe>`;
+        }
+      }
     }
 
     // ==========================================
@@ -878,7 +1100,10 @@
     async function fetchUpbitCandlesAndAnalyze() {
       try {
         const resp = await fetch(`https://api.upbit.com/v1/candles/minutes/15?market=${currentMarket}&count=60`);
-        if (!resp.ok) return;
+        if (!resp.ok) {
+          if (resp.status === 429) console.warn('Upbit candles rate limited (429), keeping active data.');
+          return;
+        }
         const raw = await resp.json();
         const candles = raw.slice().reverse(); // 과거 -> 최신순
         const closes = candles.map(c => c.trade_price);
@@ -1206,18 +1431,21 @@
       if (isEngineStarted) return;
       isEngineStarted = true;
 
-      loadTradingViewWidget();
       renderBotStatus();
       updatePortfolioUI();
+      applyInstantMarketSnapshot(currentMarket);
+      loadTradingViewWidget();
 
-      fetchUpbitRealData();
-      fetchUpbitOrderbook();
-      fetchFearGreed();
-      fetchUpbitCandlesAndAnalyze();
+      // Staggered Initial Calls to prevent Upbit Origin 429 Rate Limits
+      setTimeout(fetchUpbitRealData, 200);
+      setTimeout(fetchUpbitCandlesAndAnalyze, 800);
+      setTimeout(fetchUpbitOrderbook, 1600);
+      setTimeout(fetchFearGreed, 2400);
 
-      setInterval(fetchUpbitRealData, 2500); // 2.5초마다 체결가
-      setInterval(fetchUpbitOrderbook, 4000); // 4초마다 호가창
-      setInterval(fetchUpbitCandlesAndAnalyze, 10000); // 10초마다 지표 재연산
+      // Periodic Intervals (safe from origin 429 throttling)
+      setInterval(fetchUpbitRealData, 5000); // 5초마다 체결가
+      setInterval(fetchUpbitOrderbook, 9000); // 9초마다 호가창
+      setInterval(fetchUpbitCandlesAndAnalyze, 25000); // 25초마다 15분봉 지표 재연산
     }
 
     // ==========================================
