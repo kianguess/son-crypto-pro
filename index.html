@@ -118,6 +118,45 @@
   </header>
 
   <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
+    <!-- UPBIT REAL-TIME TICKER & MARKET STATS BAR -->
+    <div class="glass-panel rounded-2xl p-4 sm:p-5 border border-cyan-500/30 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-dot"></span>
+          <span class="text-xs font-black text-emerald-400 tracking-wider">업비트 실시간 체결</span>
+        </div>
+        <div class="hidden sm:block h-6 w-px bg-slate-800"></div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 font-bold" id="topTickerCoinName">비트코인 (BTC/KRW)</span>
+            <span class="text-[10px] text-slate-500 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60" id="topTickerMarketBadge">KRW-BTC</span>
+          </div>
+          <div class="flex flex-wrap items-baseline gap-2.5 mt-0.5">
+            <span id="topTickerPrice" class="text-2xl sm:text-3xl font-black text-white tracking-tight transition-all duration-300">--원</span>
+            <span id="topTickerChange" class="text-xs sm:text-sm font-bold text-slate-400">0.00% (0원)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs w-full md:w-auto justify-between md:justify-end">
+        <div class="bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+          <span class="text-slate-500 text-[11px] block">24H 최고가</span>
+          <strong id="topTickerHigh" class="text-rose-400 font-bold">--원</strong>
+        </div>
+        <div class="bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+          <span class="text-slate-500 text-[11px] block">24H 최저가</span>
+          <strong id="topTickerLow" class="text-blue-400 font-bold">--원</strong>
+        </div>
+        <div class="bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+          <span class="text-slate-500 text-[11px] block">24H 거래대금</span>
+          <strong id="topTickerVolume" class="text-slate-200 font-bold">--</strong>
+        </div>
+        <div class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 text-[11px]">
+          <i class="fa-solid fa-satellite-dish"></i> <span id="topTickerUpdateTime">2.5초 주기 실시간 수신</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Top Hero: Zero-Loss Core Rules Callout -->
     <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 via-indigo-950/30 to-slate-900 border border-blue-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div class="space-y-1">
@@ -150,9 +189,12 @@
             <p class="text-xs text-slate-400">RSI(14) · 볼린저밴드(20,2) · 이평선(EMA 20/50) · MACD를 실시간 수식으로 연산해 AI 가중치를 즉각 산출합니다.</p>
           </div>
         </div>
-        <div class="flex items-center gap-2 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 shrink-0">
-          <span class="text-xs text-slate-400">AI 기술 종합 점수:</span>
-          <span id="aiTotalScore" class="text-sm font-black text-emerald-400">88점 (🟢 롱 매수 우위)</span>
+        <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">AI 기술 종합 점수:</span>
+            <span id="aiTotalScore" class="text-sm font-black text-emerald-400">88점 (🟢 롱 매수 우위)</span>
+          </div>
+          <span id="aiCalcTimeBadge" class="text-[10px] text-slate-500 sm:border-l sm:border-slate-800 sm:pl-2">실시간 연동</span>
         </div>
       </div>
 
@@ -749,6 +791,17 @@
       const d = MARKET_DEFAULTS[market];
       if (!d) return;
 
+      // Update Top Ticker Bar
+      const conf = MARKET_CONFIG[market];
+      if (conf) {
+        const nameElem = document.getElementById('topTickerCoinName');
+        const badgeElem = document.getElementById('topTickerMarketBadge');
+        if (nameElem) nameElem.innerText = `${conf.name} (${conf.symbol}/KRW)`;
+        if (badgeElem) badgeElem.innerText = market;
+      }
+      const topPriceElem = document.getElementById('topTickerPrice');
+      if (topPriceElem) topPriceElem.innerText = d.price.toLocaleString() + '원';
+
       // Update Ticker
       simState.currentPrice = d.price;
       const liveElem = document.getElementById('livePriceText');
@@ -889,6 +942,14 @@
 
       document.getElementById('candleAlgoBadge').innerText = `${currentMarket} 15분봉 캔들 60개 알고리즘 실시간 분석`;
       document.getElementById('chartSymbolText').innerText = currentTvSymbol;
+
+      const conf = MARKET_CONFIG[market];
+      if (conf) {
+        const nameElem = document.getElementById('topTickerCoinName');
+        const badgeElem = document.getElementById('topTickerMarketBadge');
+        if (nameElem) nameElem.innerText = `${conf.name} (${conf.symbol}/KRW)`;
+        if (badgeElem) badgeElem.innerText = market;
+      }
 
       // 1. Instant 0-second UI render
       applyInstantMarketSnapshot(market);
@@ -1171,6 +1232,12 @@
         latestAiScore = score;
 
         // === DOM UPDATE ===
+        const aiCalcTimeBadge = document.getElementById('aiCalcTimeBadge');
+        if (aiCalcTimeBadge) {
+          const nowStr = new Date().toTimeString().split(' ')[0];
+          aiCalcTimeBadge.innerText = `${nowStr} 캔들 분석`;
+        }
+
         // 1. Total Score
         const scoreElem = document.getElementById('aiTotalScore');
         if (score >= 62) {
@@ -1333,6 +1400,8 @@
     }
 
     // 2. Fetch Upbit Real Ticker
+    let lastTradePrice = 0;
+
     async function fetchUpbitRealData() {
       try {
         const resp = await fetch(`https://api.upbit.com/v1/ticker?markets=${currentMarket}`);
@@ -1341,6 +1410,62 @@
           const item = data[0];
           const latestPrice = item.trade_price;
           simState.currentPrice = latestPrice;
+
+          // 1. Top Ticker Elements
+          const topPriceElem = document.getElementById('topTickerPrice');
+          const topChangeElem = document.getElementById('topTickerChange');
+          const topTimeElem = document.getElementById('topTickerUpdateTime');
+
+          if (topPriceElem) {
+            topPriceElem.innerText = latestPrice.toLocaleString() + '원';
+            if (lastTradePrice && latestPrice > lastTradePrice) {
+              topPriceElem.classList.remove('text-white', 'text-rose-400');
+              topPriceElem.classList.add('text-emerald-400');
+              setTimeout(() => {
+                topPriceElem?.classList.remove('text-emerald-400');
+                topPriceElem?.classList.add('text-white');
+              }, 500);
+            } else if (lastTradePrice && latestPrice < lastTradePrice) {
+              topPriceElem.classList.remove('text-white', 'text-emerald-400');
+              topPriceElem.classList.add('text-rose-400');
+              setTimeout(() => {
+                topPriceElem?.classList.remove('text-rose-400');
+                topPriceElem?.classList.add('text-white');
+              }, 500);
+            }
+          }
+          lastTradePrice = latestPrice;
+
+          if (topChangeElem) {
+            const rate = (item.signed_change_rate * 100).toFixed(2);
+            const rateSign = item.signed_change_rate > 0 ? '+' : '';
+            const priceSign = item.signed_change_price > 0 ? '+' : '';
+            if (item.signed_change_rate > 0) {
+              topChangeElem.className = 'text-xs sm:text-sm font-bold text-emerald-400';
+              topChangeElem.innerText = `▲ ${rateSign}${rate}% (${priceSign}${item.signed_change_price.toLocaleString()}원)`;
+            } else if (item.signed_change_rate < 0) {
+              topChangeElem.className = 'text-xs sm:text-sm font-bold text-blue-400';
+              topChangeElem.innerText = `▼ ${rate}% (${item.signed_change_price.toLocaleString()}원)`;
+            } else {
+              topChangeElem.className = 'text-xs sm:text-sm font-bold text-slate-400';
+              topChangeElem.innerText = `0.00% (0원)`;
+            }
+          }
+
+          if (document.getElementById('topTickerHigh')) {
+            document.getElementById('topTickerHigh').innerText = item.high_price.toLocaleString() + '원';
+          }
+          if (document.getElementById('topTickerLow')) {
+            document.getElementById('topTickerLow').innerText = item.low_price.toLocaleString() + '원';
+          }
+          if (document.getElementById('topTickerVolume')) {
+            const accBillion = Math.round(item.acc_trade_price_24h / 100000000);
+            document.getElementById('topTickerVolume').innerText = `${accBillion.toLocaleString()}억`;
+          }
+          if (topTimeElem) {
+            const timeStr = new Date().toTimeString().split(' ')[0];
+            topTimeElem.innerText = `${timeStr} 갱신 (실시간)`;
+          }
 
           document.getElementById('livePriceText').innerText = latestPrice.toLocaleString() + '원';
           updatePortfolioUI();
@@ -1443,9 +1568,9 @@
       setTimeout(fetchFearGreed, 2400);
 
       // Periodic Intervals (safe from origin 429 throttling)
-      setInterval(fetchUpbitRealData, 5000); // 5초마다 체결가
-      setInterval(fetchUpbitOrderbook, 9000); // 9초마다 호가창
-      setInterval(fetchUpbitCandlesAndAnalyze, 25000); // 25초마다 15분봉 지표 재연산
+      setInterval(fetchUpbitRealData, 2500); // 2.5초마다 업비트 체결가 및 등락률 갱신
+      setInterval(fetchUpbitOrderbook, 6000); // 6초마다 호가창 갱신
+      setInterval(fetchUpbitCandlesAndAnalyze, 15000); // 15초마다 15분봉 지표 재연산
     }
 
     // ==========================================
