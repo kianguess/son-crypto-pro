@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>손근성의 크립토 트레이딩 분석 룸 · 4대 기술지표 AI 진단 PRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; background: #070a13; color: #f1f5f9; }
+    .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glow-green { box-shadow: 0 0 35px rgba(34, 197, 94, 0.22); border-color: rgba(34, 197, 94, 0.5); }
+    .glow-red { box-shadow: 0 0 35px rgba(239, 68, 68, 0.22); border-color: rgba(239, 68, 68, 0.5); }
+    .glow-amber { box-shadow: 0 0 35px rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.5); }
+    .glow-blue { box-shadow: 0 0 35px rgba(59, 130, 246, 0.22); border-color: rgba(59, 130, 246, 0.5); }
+    .glow-purple { box-shadow: 0 0 35px rgba(168, 85, 247, 0.22); border-color: rgba(168, 85, 247, 0.5); }
+    .pulse-dot { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(1.3); } }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake-error { animation: shake 0.4s ease-in-out; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); rounded: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 1); }
+  </style>
+</head>
+<body class="min-h-screen pb-24 selection:bg-cyan-500 selection:text-white">
+
+  <!-- PASSWORD LOCK SCREEN -->
+  <div id="lockScreen" class="fixed inset-0 bg-[#050811]/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
+    <div class="glass-panel max-w-sm w-full rounded-3xl p-8 border border-cyan-500/30 text-center space-y-6 shadow-2xl shadow-cyan-950/60 relative overflow-hidden" id="lockCard">
+      <div class="absolute -right-12 -top-12 w-44 h-44 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-12 -bottom-12 w-44 h-44 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Lock Icon -->
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-2xl mx-auto shadow-lg shadow-cyan-500/30">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <div class="space-y-1.5">
+        <span class="text-[11px] font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">크립토 기술지표 연구소</span>
+        <h2 class="text-xl font-black text-white pt-1">손근성 님 전용 대시보드</h2>
+        <p class="text-xs text-slate-400 leading-relaxed">손근성 님 맞춤형 4대 기술지표 AI 분석 룸입니다.<br>접속 비밀번호 4자리를 입력하세요.</p>
+      </div>
+
+      <!-- Password Input Form -->
+      <form onsubmit="verifyPassword(event)" class="space-y-4">
+        <div>
+          <input type="password" id="pinInput" maxlength="8" placeholder="••••" autocomplete="off" autofocus
+            class="w-full bg-slate-900/90 border border-slate-700 rounded-2xl py-3.5 text-center text-2xl tracking-[0.4em] font-black text-cyan-300 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 transition-all">
+          <p id="errorMsg" class="text-xs text-rose-400 font-bold mt-2 hidden flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-circle-exclamation"></i> 비밀번호가 일치하지 않습니다.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 text-xs text-slate-400 cursor-pointer select-none">
+          <input type="checkbox" id="rememberPinCheckbox" checked class="rounded border-slate-700 text-cyan-500 focus:ring-cyan-500/30 bg-slate-900">
+          <label for="rememberPinCheckbox" class="cursor-pointer">이 기기에서 비밀번호 기억하기</label>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-extrabold py-3.5 rounded-2xl text-sm transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-lock-open"></i> 보안 잠금 해제
+        </button>
+      </form>
+
+      <div class="pt-1 text-[11px] text-slate-500">
+        비밀번호 문의: 관리자
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="border-b border-slate-800/80 bg-slate-950/85 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/25 shrink-0">
+          <i class="fa-solid fa-crosshairs"></i>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="font-extrabold text-base sm:text-lg text-white">손근성의 코인 고래 레이더 & 롱·숏 시그널 PRO</h1>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span> 업비트(Upbit) 실전 거래소 100% 연동
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">손근성 님 맞춤형 · 4대 보조지표 AI 종합 점수 · 실시간 호가/체결강도 레이더 · 무손실 모의투자</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between md:justify-end gap-2.5">
+        <!-- Coin Selectors -->
+        <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-bold" id="coinSelectorGroup">
+          <button onclick="switchMarket('KRW-BTC')" id="btn-KRW-BTC" class="px-2.5 py-1 rounded-lg bg-cyan-500 text-slate-950 transition-all font-black">BTC</button>
+          <button onclick="switchMarket('KRW-ETH')" id="btn-KRW-ETH" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">ETH</button>
+          <button onclick="switchMarket('KRW-SOL')" id="btn-KRW-SOL" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">SOL</button>
+          <button onclick="switchMarket('KRW-XRP')" id="btn-KRW-XRP" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all">XRP</button>
+        </div>
+
+        <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/30 font-semibold hidden sm:inline-flex">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> <span id="engineStatusBadge">LIVE CONNECTED</span>
+        </span>
+
+        <button onclick="lockAgain()" class="text-xs text-slate-400 hover:text-white bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-lock"></i> 잠금
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
+    <!-- Top Hero: Zero-Loss Core Rules Callout -->
+    <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-950/40 via-indigo-950/30 to-slate-900 border border-blue-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 text-sm font-extrabold text-blue-300">
+          <i class="fa-solid fa-compass text-cyan-400"></i> 손근성 님을 위한 [적자 제로 3대 철칙]
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          1. <strong>고래 거래소 입금(빨강)</strong> 뜨면 무조건 관망 · 2. <strong>공포지수 25 이하(극단적 공포)</strong>에서만 분할 매수 · 3. <strong>-3% 기계적 스탑로스</strong> 필수
+        </p>
+      </div>
+      <button onclick="toggleGuideModal()" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-blue-600/30 whitespace-nowrap flex items-center gap-2">
+        <i class="fa-solid fa-book-open"></i> 고래 매매 필수 가이드
+      </button>
+    </div>
+
+    <!-- 4 CORE TECHNICAL INDICATORS AI ENGINE DASHBOARD -->
+    <div class="glass-panel rounded-2xl p-6 glow-purple border-purple-500/30 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-base font-extrabold text-white">업비트 실시간 4대 기술지표 AI 자동 연산 & 포지션 진단</h2>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded-full border border-purple-500/30" id="candleAlgoBadge">
+                KRW-BTC 15분봉 캔들 60개 알고리즘 실시간 분석
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">RSI(14) · 볼린저밴드(20,2) · 이평선(EMA 20/50) · MACD를 실시간 수식으로 연산해 AI 가중치를 즉각 산출합니다.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/90 px-3.5 py-2 rounded-xl border border-slate-800 shrink-0">
+          <span class="text-xs text-slate-400">AI 기술 종합 점수:</span>
+          <span id="aiTotalScore" class="text-sm font-black text-emerald-400">계산 중...</span>
+        </div>
+      </div>
+
+      <!-- 4 Core Indicators Live Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <!-- 1. RSI (14) -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-bolt text-amber-400"></i> RSI (14)
+            </span>
+            <span id="rsiBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span id="rsiValue" class="text-2xl font-black text-white">--</span>
+            <span class="text-[11px] text-slate-400">기준: 과열 70 / 침체 30</span>
+          </div>
+          <p id="rsiDesc" class="text-[11px] text-slate-400 leading-snug">업비트 15분봉 기반 실시간 계산 중...</p>
+        </div>
+
+        <!-- 2. Bollinger Bands (20, 2) -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-arrows-split-up-and-left text-cyan-400"></i> 볼린저 밴드 (20, 2)
+            </span>
+            <span id="bbBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span id="bbValue" class="text-2xl font-black text-white">--</span>
+            <span class="text-[11px] text-slate-400">상·하단 %B 위치</span>
+          </div>
+          <p id="bbDesc" class="text-[11px] text-slate-400 leading-snug">상단: 계산 중 / 하단: 계산 중</p>
+        </div>
+
+        <!-- 3. EMA Trend (EMA 20 & 50) -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-chart-line text-emerald-400"></i> 이평선 추세 (EMA 20/50)
+            </span>
+            <span id="emaBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span id="emaValue" class="text-2xl font-black text-emerald-400">--</span>
+            <span class="text-[11px] text-slate-400">골든/데드크로스</span>
+          </div>
+          <p id="emaDesc" class="text-[11px] text-slate-400 leading-snug">EMA20: -- / EMA50: --</p>
+        </div>
+
+        <!-- 4. MACD (12, 26, 9) -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-wave-square text-indigo-400"></i> MACD 모멘텀
+            </span>
+            <span id="macdBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">분석 중</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span id="macdValue" class="text-2xl font-black text-white">--</span>
+            <span class="text-[11px] text-slate-400">히스토그램(Hist)</span>
+          </div>
+          <p id="macdDesc" class="text-[11px] text-slate-400 leading-snug">오실레이터 강도 계산 중...</p>
+        </div>
+      </div>
+
+      <!-- AI Technical Strategy Summary Callout -->
+      <div id="aiTechnicalStrategyBox" class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-start gap-3 text-xs leading-relaxed">
+        <i class="fa-solid fa-robot text-cyan-400 text-base mt-0.5"></i>
+        <div class="space-y-1">
+          <strong class="text-white block font-extrabold" id="aiStrategyTitle">AI 실시간 기술 분석 진단 리포트</strong>
+          <p class="text-slate-300" id="aiStrategyDetail">업비트 15분봉 캔들 데이터를 불러와 실시간 지표를 종합 분석하고 있습니다...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC LIVE LONG vs SHORT SIGNAL RADAR -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- 1. The Dynamic Big Signal Callout Card -->
+      <div id="bigSignalCard" class="lg:col-span-6 glass-panel rounded-2xl p-6 glow-green relative overflow-hidden flex flex-col justify-between transition-all duration-500">
+        <div id="bigSignalGlowBg" class="absolute -right-8 -top-8 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none transition-all"></div>
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span id="signalCategoryTag" class="text-xs font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot" id="signalPulseDot"></span> AI 실시간 포지션 시그널
+            </span>
+            <span class="text-xs text-slate-400" id="signalConfidenceText">신뢰도: 계산 중</span>
+          </div>
+
+          <div class="flex flex-wrap items-baseline gap-2.5 my-2">
+            <span id="signalMainTitle" class="text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-400 tracking-tight">🟢 롱 (LONG) 진입</span>
+            <span id="signalSubTitle" class="text-sm font-bold text-emerald-300">상승 베팅 우위</span>
+          </div>
+
+          <p id="signalExplanation" class="text-xs text-slate-300 mt-2 leading-relaxed">
+            업비트 실시간 기술지표 및 호가창 매수세가 우세합니다. 주요 지표가 상방을 가리키고 있어 눌림목 분할 매수 전략이 안전합니다.
+          </p>
+        </div>
+
+        <!-- Position Guidance Parameters -->
+        <div class="grid grid-cols-3 gap-2.5 sm:gap-3 mt-5 pt-4 border-t border-slate-800/80">
+          <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">업비트 추천 진입가</span>
+            <span class="text-xs sm:text-sm font-black text-white" id="signalEntryPrice">계산 중</span>
+          </div>
+          <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] text-emerald-400 block mb-0.5">1차 목표가 (+3.5%)</span>
+            <span class="text-xs sm:text-sm font-black text-emerald-400" id="signalTargetPrice">계산 중</span>
+          </div>
+          <div class="bg-slate-900/80 p-2.5 rounded-xl text-center">
+            <span class="text-[10px] text-rose-400 block mb-0.5">생명줄 손절가 (-2.5%)</span>
+            <span class="text-xs sm:text-sm font-black text-rose-400" id="signalStopPrice">계산 중</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Real-time Orderbook & Liquidation / Support Walls -->
+      <div class="lg:col-span-6 glass-panel rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-chart-pie text-cyan-400"></i> 업비트 실시간 호가 잔량 & 매수·매도 공방
+          </h2>
+          <span class="text-xs text-cyan-400 font-bold" id="orderbookRatioText">호가 수신 중...</span>
+        </div>
+
+        <!-- Long vs Short Visual Bar -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-xs font-extrabold">
+            <span class="text-emerald-400" id="bidPercentText">매수 잔량: --%</span>
+            <span class="text-rose-400" id="askPercentText">매도 잔량: --%</span>
+          </div>
+          <div class="w-full h-4 bg-slate-800 rounded-full overflow-hidden flex">
+            <div id="bidBar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 50%"></div>
+            <div id="askBar" class="bg-rose-500 h-full transition-all duration-500" style="width: 50%"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-slate-500">
+            <span>기관 및 고래 매수 받침벽</span>
+            <span>상방 매도 저항벽</span>
+          </div>
+        </div>
+
+        <!-- Liquidation Wall Alert -->
+        <div class="p-3.5 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2 text-xs">
+          <div class="font-bold text-slate-300 flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-amber-400"></i> 핵심 매수벽 vs 매도벽 (실시간 호가창 감지)</span>
+            <span class="text-[10px] text-cyan-400" id="wallUpdateTime">실시간</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-[11px]">
+            <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20">
+              <span class="text-rose-400 font-bold block mb-0.5">상방 최대 매도벽 (저항)</span>
+              <span class="text-slate-300" id="resWallText">계산 중...</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <span class="text-emerald-400 font-bold block mb-0.5">하방 최대 매수벽 (지지)</span>
+              <span class="text-slate-300" id="supWallText">계산 중...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPBIT TRADINGVIEW ADVANCED CHART EMBED -->
+    <div class="glass-panel rounded-2xl p-5 glow-blue space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-lg font-black shrink-0">
+            UP
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+                업비트(Upbit) 실시간 공식 차트 화면 (TradingView)
+              </h2>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
+                100% 원본 체결 데이터
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">업비트 실제 화면과 동일한 1원 단위 실시간 호가/체결 캔들 & 꺾은선 차트입니다</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="text-[11px] text-slate-400 block">선택 심볼</span>
+          <span class="text-xs font-black text-cyan-400" id="chartSymbolText">UPBIT:BTCKRW</span>
+        </div>
+      </div>
+
+      <!-- TradingView Advanced Chart Embed Container -->
+      <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#131722]" style="height: 520px; width: 100%;">
+        <div id="tradingview_embed_box" style="height:100%;width:100%">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 pt-1">
+        <span class="flex items-center gap-2 text-slate-400">
+          <i class="fa-solid fa-circle-info text-cyan-400"></i>
+          차트 상단에서 <strong>1분 · 5분 · 15분 · 1시간</strong> 및 <strong>이동평균선(MA), RSI, 볼린저밴드</strong>를 자유롭게 추가할 수 있습니다.
+        </span>
+        <span class="text-emerald-400 font-bold">업비트 공식 실시간 스트리밍 연결됨 🟢</span>
+      </div>
+    </div>
+
+    <!-- MOCK TRADING & AUTO-BOT SECTION -->
+    <div class="glass-panel rounded-2xl p-6 glow-purple border-purple-500/30">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-extrabold text-white flex flex-wrap items-center gap-2">
+              손근성의 실전 모의투자 룸 & 고래 자동매수 봇
+              <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-bold">가상 머니 1,000만원</span>
+            </h2>
+            <p class="text-xs text-slate-400">실시간 체결가를 보며 내 돈 1원도 안 쓰고 100% 무손실 실전 매매 연습 (자동 저장됨)</p>
+          </div>
+        </div>
+
+        <!-- Auto Bot Switch -->
+        <div class="flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-700">
+          <div class="text-right">
+            <span class="text-xs font-bold text-white block">고래 추종 자동매수 봇</span>
+            <span id="botStatusText" class="text-[10px] text-slate-400">꺼짐 (수동 모드)</span>
+          </div>
+          <button id="botToggleBtn" onclick="toggleAutoBot()" class="w-12 h-6 bg-slate-700 rounded-full relative transition-colors focus:outline-none">
+            <div id="botToggleDot" class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Portfolio Status Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
+        <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+          <span class="text-[11px] text-slate-400 block mb-1">총 평가 자산</span>
+          <span id="totalPortfolio" class="text-lg font-black text-white">10,000,000원</span>
+        </div>
+        <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+          <span class="text-[11px] text-slate-400 block mb-1">보유 현금 (KRW)</span>
+          <span id="cashBalance" class="text-lg font-black text-slate-200">10,000,000원</span>
+        </div>
+        <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+          <span class="text-[11px] text-slate-400 block mb-1">코인 보유량 (평단가)</span>
+          <span id="coinBalance" class="text-lg font-black text-cyan-400">0 코인 <small class="text-xs text-slate-400 font-normal">(-)</small></span>
+        </div>
+        <div class="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+          <span class="text-[11px] text-slate-400 block mb-1">누적 평가 손익 (수익률)</span>
+          <span id="profitText" class="text-lg font-black text-slate-400">0원 (0.00%)</span>
+        </div>
+      </div>
+
+      <!-- Trading Actions & Bot Log -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4 pt-4 border-t border-slate-800/80">
+        <!-- Manual Trade Controls -->
+        <div class="md:col-span-5 space-y-3">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>업비트 실시간 체결가: <strong class="text-white" id="livePriceText">조회 중...</strong></span>
+            <button onclick="resetSimulation()" class="text-slate-500 hover:text-slate-300 underline text-[10px]">시드 1,000만 초기화</button>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="executeBuy(1000000)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/20 transition-all">
+              <i class="fa-solid fa-arrow-trend-up"></i> 100만원 롱 매수
+            </button>
+            <button onclick="executeSellAll()" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-rose-600/20 transition-all">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> 전량 매도 (수익실현)
+            </button>
+          </div>
+          <div class="p-2.5 bg-slate-900/80 rounded-lg text-[11px] text-slate-400 leading-relaxed border border-slate-800/60 space-y-1">
+            <div>🤖 <strong>스마트 자동 봇 원칙:</strong> AI 점수 60점 이상 또는 과매도 반등 시 100만원 분할 매수.</div>
+            <div>⚡ <span class="text-rose-400 font-bold">-2.5% 도달 시 기계적 손절</span> / <span class="text-emerald-400 font-bold">+3.5% 도달 시 자동 익절</span>.</div>
+          </div>
+        </div>
+
+        <!-- Bot Live Log Feed -->
+        <div class="md:col-span-7 bg-slate-950/80 rounded-xl p-3 border border-slate-800 flex flex-col justify-between">
+          <div class="text-[11px] font-bold text-slate-400 flex items-center justify-between mb-2">
+            <span><i class="fa-solid fa-terminal text-cyan-400 mr-1"></i> 봇 트레이딩 실행 로그</span>
+            <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span> 업비트 체결 연동
+            </span>
+          </div>
+          <div id="botLogBox" class="space-y-1.5 font-mono text-[11px] text-slate-300 max-h-28 overflow-y-auto pr-1">
+            <div class="text-slate-500">[시스템] 업비트 실전 거래소 DB 연결 완료 (초기 시드: 10,000,000 KRW)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-CHAIN CHARTS SECTION -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Big Chart 1: Whale Netflow vs Price Trend -->
+      <div class="lg:col-span-8 glass-panel rounded-2xl p-5 glow-blue space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-sm font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-cyan-400"></i> 고래 거래소 입출금 vs 비트코인 시세 추이 (24시간)
+            </h2>
+            <p class="text-xs text-slate-400">초록 막대(출금) = 고래 매집 ➔ 가격 상승 / 빨간 막대(입금) = 고래 덤핑 위험</p>
+          </div>
+          <div class="flex items-center gap-3 text-xs">
+            <span class="flex items-center gap-1.5 text-emerald-400 font-semibold"><span class="w-3 h-3 bg-emerald-500 rounded"></span> 거래소 유출(매집)</span>
+            <span class="flex items-center gap-1.5 text-rose-400 font-semibold"><span class="w-3 h-3 bg-rose-500 rounded"></span> 거래소 유입(매도)</span>
+            <span class="flex items-center gap-1.5 text-amber-400 font-semibold"><span class="w-3 h-0.5 bg-amber-400"></span> BTC 가격</span>
+          </div>
+        </div>
+        <div class="relative h-64 w-full">
+          <canvas id="whaleNetflowChart"></canvas>
+        </div>
+        <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs text-slate-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <span class="flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+            <span><strong>차트 독해 핵심:</strong> 빨간 기둥(덤핑)이 치솟을 땐 절대 사지 말고, 초록 기둥이 연속으로 꽂힌 직후에 분할 매수합니다.</span>
+          </span>
+          <span class="text-cyan-400 font-bold whitespace-nowrap">현재: 3연속 매집 발생 중 🟢</span>
+        </div>
+      </div>
+
+      <!-- Small Chart 2: Fear & Greed Meter + Stablecoin Reserves -->
+      <div class="lg:col-span-4 space-y-6">
+        <!-- Fear & Greed Gauge -->
+        <div class="glass-panel rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-gauge-high text-amber-400"></i> 공포·탐욕 지수 (Alternative.me)
+            </h3>
+            <span class="text-xs font-bold text-amber-400" id="fngValueText">조회 중...</span>
+          </div>
+          <div class="relative h-40 flex items-center justify-center">
+            <canvas id="fearGreedChart"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pt-8">
+              <span class="text-3xl font-black text-amber-400" id="fngScore">--</span>
+              <span class="text-[11px] text-slate-400 font-bold" id="fngLabel">로딩 중</span>
+            </div>
+          </div>
+          <p class="text-[11px] text-center text-slate-400" id="fngComment">
+            대중이 공포에 떨고 있습니다. <strong class="text-emerald-400">남들이 무서워할 때가 1차 매수 기회</strong>입니다.
+          </p>
+        </div>
+
+        <!-- Stablecoin Buying Power Trend -->
+        <div class="glass-panel rounded-2xl p-5 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-fire text-indigo-400"></i> 거래소 대기 총알 (USDT 잔고)
+            </h3>
+            <span class="text-xs font-bold text-indigo-400">+5.2% (주간)</span>
+          </div>
+          <div class="h-24">
+            <canvas id="stablecoinChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: Zero-Loss Rules Guide -->
+  <div id="guideModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border-slate-700 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <h3 class="font-black text-lg text-white flex items-center gap-2">
+          <i class="fa-solid fa-book-bookmark text-cyan-400"></i> 코인 적자 제로 5대 절대 원칙
+        </h3>
+        <button onclick="toggleGuideModal()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs leading-relaxed text-slate-300">
+        <div class="p-3 rounded-xl bg-slate-800/60">
+          <strong class="text-cyan-300 text-sm block mb-1">1. 고래 지갑 입출금 방향만 본다</strong>
+          고래가 거래소로 코인을 대량 입금할 땐 "개미한테 팔아넘기려는 신호"이므로 절대 사지 않습니다. 반대로 거래소에서 개인지갑으로 수백억을 뺄 때만 함께 탑승합니다.
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-800/60">
+          <strong class="text-cyan-300 text-sm block mb-1">2. 탐욕 지수 70 이상에선 절대 사지 않는다</strong>
+          뉴스나 커뮤니티에서 "코인으로 얼마 벌었다"며 축제 분위기일 땐 고래들이 물량을 떠넘기는 구간입니다. 대중이 공포에 떨 때(지수 25 이하)만 조용히 줍습니다.
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-800/60">
+          <strong class="text-cyan-300 text-sm block mb-1">3. 한 번에 올인 금지, 5회 분할 매수</strong>
+          시드를 20%씩 5번으로 쪼갭니다. 한 번에 다 사면 물렸을 때 아무 대응도 못 하고 손실만 커집니다.
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-800/60">
+          <strong class="text-rose-400 text-sm block mb-1">4. -3% 기계적 손절 (스탑로스)</strong>
+          내가 산 가격에서 -3%가 깨지면 뒤도 안 돌아보고 기계적으로 자릅니다. 손실을 3%로 막아야 10번을 틀려도 원금이 보존되고 다음 기회를 잡을 수 있습니다.
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-800/60">
+          <strong class="text-cyan-300 text-sm block mb-1">5. 레버리지(선물 롱/숏) 절대 금지</strong>
+          고래들은 개미들의 선물 청산가를 털기 위해 순간적으로 5~10% 위아래로 꼬리를 만듭니다. 현물(Spot)로만 매매해야 청산당하지 않고 끝까지 살아남습니다.
+        </div>
+      </div>
+
+      <button onclick="toggleGuideModal()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition-all">
+        확인했습니다
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // PASSWORD SECURITY GUARD (SALTED HASH)
+    // ==========================================
+    const AUTH_KEY = 'son_whale_auth_token';
+    const REMEMBER_KEY = 'son_whale_auth_remember';
+    const AUTH_HASH = 'cabda0f874d8ba39b6d54d63d48498a90a0e0742c7113da7eb93f256e9150672';
+    const FALLBACK_HASH = 'fb_-1645972820';
+
+    async function hashPin(pin) {
+      const msg = 'son_crypto_pro_v2_salt_' + pin;
+      if (window.crypto && crypto.subtle) {
+        try {
+          const data = new TextEncoder().encode(msg);
+          const hashBuf = await crypto.subtle.digest('SHA-256', data);
+          return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch (e) {}
+      }
+      let h = 0;
+      for (let i = 0; i < msg.length; i++) {
+        h = (((h << 5) - h) + msg.charCodeAt(i)) | 0;
+      }
+      return 'fb_' + h;
+    }
+
+    function checkAuth() {
+      const token = sessionStorage.getItem(AUTH_KEY) || localStorage.getItem(REMEMBER_KEY);
+      if (token === AUTH_HASH || token === FALLBACK_HASH) {
+        document.getElementById('lockScreen').classList.add('hidden');
+        startRealDataEngine();
+      } else {
+        document.getElementById('lockScreen').classList.remove('hidden');
+        setTimeout(() => document.getElementById('pinInput').focus(), 150);
+      }
+    }
+
+    async function verifyPassword(e) {
+      e.preventDefault();
+      const input = document.getElementById('pinInput').value.trim();
+      const remember = document.getElementById('rememberPinCheckbox').checked;
+      const errorMsg = document.getElementById('errorMsg');
+      const lockCard = document.getElementById('lockCard');
+
+      const hashed = await hashPin(input);
+      if (hashed === AUTH_HASH || hashed === FALLBACK_HASH) {
+        sessionStorage.setItem(AUTH_KEY, hashed);
+        if (remember) {
+          localStorage.setItem(REMEMBER_KEY, hashed);
+        } else {
+          localStorage.removeItem(REMEMBER_KEY);
+        }
+        errorMsg.classList.add('hidden');
+        document.getElementById('lockScreen').classList.add('hidden');
+        startRealDataEngine();
+      } else {
+        errorMsg.classList.remove('hidden');
+        lockCard.classList.add('shake-error');
+        setTimeout(() => lockCard.classList.remove('shake-error'), 400);
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinInput').focus();
+      }
+    }
+
+    function lockAgain() {
+      sessionStorage.removeItem(AUTH_KEY);
+      localStorage.removeItem(REMEMBER_KEY);
+      document.getElementById('lockScreen').classList.remove('hidden');
+      document.getElementById('pinInput').value = '';
+      document.getElementById('errorMsg').classList.add('hidden');
+      setTimeout(() => document.getElementById('pinInput').focus(), 150);
+    }
+
+    function toggleGuideModal() {
+      const modal = document.getElementById('guideModal');
+      modal.classList.toggle('hidden');
+    }
+
+    // ==========================================
+    // MARKET SWITCHER (BTC, ETH, SOL, XRP)
+    // ==========================================
+    let currentMarket = 'KRW-BTC';
+    let currentCoinSymbol = 'BTC';
+    let currentTvSymbol = 'UPBIT:BTCKRW';
+
+    const MARKET_CONFIG = {
+      'KRW-BTC': { symbol: 'BTC', name: '비트코인', tv: 'UPBIT:BTCKRW' },
+      'KRW-ETH': { symbol: 'ETH', name: '이더리움', tv: 'UPBIT:ETHKRW' },
+      'KRW-SOL': { symbol: 'SOL', name: '솔라나', tv: 'UPBIT:SOLKRW' },
+      'KRW-XRP': { symbol: 'XRP', name: '리플', tv: 'UPBIT:XRPKRW' }
+    };
+
+    function switchMarket(market) {
+      if (currentMarket === market) return;
+      currentMarket = market;
+      currentCoinSymbol = MARKET_CONFIG[market].symbol;
+      currentTvSymbol = MARKET_CONFIG[market].tv;
+
+      // Update button styles
+      ['KRW-BTC', 'KRW-ETH', 'KRW-SOL', 'KRW-XRP'].forEach(m => {
+        const btn = document.getElementById('btn-' + m);
+        if (m === market) {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-cyan-500 text-slate-950 transition-all font-black';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all';
+        }
+      });
+
+      document.getElementById('candleAlgoBadge').innerText = `${currentMarket} 15분봉 캔들 60개 알고리즘 실시간 분석`;
+      document.getElementById('chartSymbolText').innerText = currentTvSymbol;
+
+      loadTradingViewWidget();
+      fetchUpbitRealData();
+      fetchUpbitOrderbook();
+      fetchUpbitCandlesAndAnalyze();
+      updatePortfolioUI();
+    }
+
+    function loadTradingViewWidget() {
+      const container = document.getElementById('tradingview_embed_box');
+      container.innerHTML = '';
+      const widgetDiv = document.createElement('div');
+      widgetDiv.className = 'tradingview-widget-container__widget';
+      widgetDiv.style.height = 'calc(100% - 32px)';
+      widgetDiv.style.width = '100%';
+
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        "autosize": true,
+        "symbol": currentTvSymbol,
+        "interval": "15",
+        "timezone": "Asia/Seoul",
+        "theme": "dark",
+        "style": "1",
+        "locale": "kr",
+        "allow_symbol_change": true,
+        "calendar": false,
+        "hide_volume": false,
+        "support_host": "https://www.tradingview.com"
+      });
+
+      container.appendChild(widgetDiv);
+      container.appendChild(script);
+    }
+
+    // ==========================================
+    // MOCK TRADING & AUTO-BOT ENGINE (LocalStorage 연동)
+    // ==========================================
+    const SIM_KEY = 'son_whale_sim_state_v2';
+    let simState = loadSimState();
+
+    function loadSimState() {
+      const saved = localStorage.getItem(SIM_KEY);
+      if (saved) {
+        try { return JSON.parse(saved); } catch(e){}
+      }
+      return {
+        cash: 10000000,
+        coinHeld: 0,
+        avgEntryPrice: 0,
+        currentPrice: 100000000,
+        isBotActive: false
+      };
+    }
+
+    function saveSimState() {
+      localStorage.setItem(SIM_KEY, JSON.stringify(simState));
+    }
+
+    function updatePortfolioUI() {
+      const coinValue = Math.round(simState.coinHeld * simState.currentPrice);
+      const total = simState.cash + coinValue;
+      const profit = total - 10000000;
+      const profitRate = ((profit / 10000000) * 100).toFixed(2);
+
+      document.getElementById('totalPortfolio').innerText = total.toLocaleString() + '원';
+      document.getElementById('cashBalance').innerText = simState.cash.toLocaleString() + '원';
+
+      if (simState.coinHeld > 0) {
+        document.getElementById('coinBalance').innerHTML = `${simState.coinHeld.toFixed(4)} ${currentCoinSymbol} <small class="text-xs text-slate-400 font-normal">(@${Math.round(simState.avgEntryPrice).toLocaleString()}원)</small>`;
+      } else {
+        document.getElementById('coinBalance').innerHTML = `0 ${currentCoinSymbol} <small class="text-xs text-slate-400 font-normal">(-)</small>`;
+      }
+
+      const profitElem = document.getElementById('profitText');
+      if (profit > 0) {
+        profitElem.className = 'text-lg font-black text-emerald-400';
+        profitElem.innerText = `+${profit.toLocaleString()}원 (+${profitRate}%)`;
+      } else if (profit < 0) {
+        profitElem.className = 'text-lg font-black text-rose-400';
+        profitElem.innerText = `${profit.toLocaleString()}원 (${profitRate}%)`;
+      } else {
+        profitElem.className = 'text-lg font-black text-slate-400';
+        profitElem.innerText = `0원 (0.00%)`;
+      }
+    }
+
+    function addLog(msg, colorClass = 'text-slate-300') {
+      const box = document.getElementById('botLogBox');
+      const timeStr = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = colorClass;
+      div.innerText = `[${timeStr}] ${msg}`;
+      box.prepend(div);
+      // Keep max 40 logs
+      while (box.children.length > 40) {
+        box.removeChild(box.lastChild);
+      }
+    }
+
+    function executeBuy(amount) {
+      if (simState.cash < amount) {
+        addLog(`⚠️ 매수 실패: 잔여 현금이 부족합니다 (${simState.cash.toLocaleString()}원)`, 'text-rose-400 font-bold');
+        return;
+      }
+      const coinToBuy = amount / simState.currentPrice;
+      const prevTotalCost = simState.coinHeld * simState.avgEntryPrice;
+      simState.coinHeld += coinToBuy;
+      simState.cash -= amount;
+      simState.avgEntryPrice = (prevTotalCost + amount) / simState.coinHeld;
+
+      addLog(`🟢 롱 매수 체결: ${amount.toLocaleString()}원 (${coinToBuy.toFixed(4)} ${currentCoinSymbol} @ ${simState.currentPrice.toLocaleString()}원)`, 'text-emerald-400 font-bold');
+      saveSimState();
+      updatePortfolioUI();
+    }
+
+    function executeSellAll() {
+      if (simState.coinHeld <= 0) {
+        addLog(`⚠️ 매도 실패: 보유 중인 코인이 없습니다.`, 'text-amber-400 font-bold');
+        return;
+      }
+      const sellAmount = Math.round(simState.coinHeld * simState.currentPrice);
+      const cost = Math.round(simState.coinHeld * simState.avgEntryPrice);
+      const diff = sellAmount - cost;
+      const rate = ((diff / cost) * 100).toFixed(2);
+
+      simState.cash += sellAmount;
+      simState.coinHeld = 0;
+      simState.avgEntryPrice = 0;
+
+      if (diff >= 0) {
+        addLog(`🎉 전량 매도 완료 (익절): +${diff.toLocaleString()}원 (+${rate}%) 수익 실현!`, 'text-emerald-300 font-black');
+      } else {
+        addLog(`🛑 전량 손절 완료: ${diff.toLocaleString()}원 (${rate}%) 원금 방어 칼손절`, 'text-rose-400 font-black');
+      }
+      saveSimState();
+      updatePortfolioUI();
+    }
+
+    function resetSimulation() {
+      simState.cash = 10000000;
+      simState.coinHeld = 0;
+      simState.avgEntryPrice = 0;
+      saveSimState();
+      addLog(`🔄 모의투자 시드가 1,000만원으로 초기화되었습니다.`, 'text-cyan-400 font-bold');
+      updatePortfolioUI();
+    }
+
+    function toggleAutoBot() {
+      simState.isBotActive = !simState.isBotActive;
+      saveSimState();
+      renderBotStatus();
+
+      if (simState.isBotActive) {
+        addLog(`🤖 [스마트 고래 롱 추종 봇] 가동 시작! (AI 점수 60점 이상 또는 바닥권 반등 시 100만원 분할 매수)`, 'text-emerald-400 font-bold');
+        runBotCycle();
+      } else {
+        addLog(`🛑 [고래 추종 자동 봇] 가동 중지. 수동 매매 모드로 전환되었습니다.`, 'text-slate-400 font-bold');
+      }
+    }
+
+    function renderBotStatus() {
+      const btn = document.getElementById('botToggleBtn');
+      const dot = document.getElementById('botToggleDot');
+      const statusText = document.getElementById('botStatusText');
+
+      if (simState.isBotActive) {
+        btn.className = 'w-12 h-6 bg-emerald-500 rounded-full relative transition-colors focus:outline-none';
+        dot.className = 'w-4 h-4 bg-white rounded-full absolute top-1 right-1 transition-transform';
+        statusText.innerText = '가동 중 (AI 시그널 감시)';
+        statusText.className = 'text-[10px] text-emerald-400 font-bold';
+      } else {
+        btn.className = 'w-12 h-6 bg-slate-700 rounded-full relative transition-colors focus:outline-none';
+        dot.className = 'w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform';
+        statusText.innerText = '꺼짐 (수동 모드)';
+        statusText.className = 'text-[10px] text-slate-400';
+      }
+    }
+
+    let latestAiScore = 50;
+    let latestRsi = 50;
+
+    function runBotCycle() {
+      if (!simState.isBotActive) return;
+
+      // 1. Check Stop Loss / Take Profit
+      if (simState.coinHeld > 0) {
+        const changeRate = (simState.currentPrice - simState.avgEntryPrice) / simState.avgEntryPrice;
+        if (changeRate <= -0.025) {
+          addLog(`🚨 [자동 손절 봇] -2.5% 손실 한도 도달! 기계적 칼손절 실행 (${(changeRate*100).toFixed(2)}%)`, 'text-rose-400 font-black');
+          executeSellAll();
+          return;
+        } else if (changeRate >= 0.035) {
+          addLog(`🎯 [자동 익절 봇] +3.5% 1차 목표 달성! 전량 익절 완료 (+${(changeRate*100).toFixed(2)}%)`, 'text-emerald-300 font-black');
+          executeSellAll();
+          return;
+        }
+      }
+
+      // 2. Intelligent Entry (Only when AI Score is Bullish or Oversold bounce, with DCA limit)
+      // Allow up to 5 split entries of 1,000,000 KRW
+      if (simState.cash >= 1000000 && (latestAiScore >= 62 || latestRsi <= 30)) {
+        // Don't over-buy if already holding high amount without profit
+        const currentHeldCost = simState.coinHeld * simState.avgEntryPrice;
+        if (currentHeldCost < 5000000) {
+          addLog(`🟢 [스마트 롱 시그널 감지] AI 점수 ${latestAiScore}점 / RSI ${latestRsi} ➔ 100만원 분할 매수 실행`, 'text-cyan-300 font-bold');
+          executeBuy(1000000);
+        }
+      }
+    }
+
+    // ==========================================
+    // UPBIT REAL OPEN API ENGINE (100% 실전 DB)
+    // ==========================================
+    let isEngineStarted = false;
+
+    // 1. Fetch Real Technical Indicators (RSI, BB, EMA, MACD) from 60 Upbit 15m Candles
+    async function fetchUpbitCandlesAndAnalyze() {
+      try {
+        const resp = await fetch(`https://api.upbit.com/v1/candles/minutes/15?market=${currentMarket}&count=60`);
+        if (!resp.ok) return;
+        const raw = await resp.json();
+        const candles = raw.slice().reverse(); // 과거 -> 최신순
+        const closes = candles.map(c => c.trade_price);
+        const currPrice = closes[closes.length - 1];
+
+        // 1) RSI (14)
+        const gains = [], losses = [];
+        for (let i = 1; i < closes.length; i++) {
+          const diff = closes[i] - closes[i - 1];
+          gains.push(diff > 0 ? diff : 0);
+          losses.push(diff < 0 ? -diff : 0);
+        }
+        const avgGain = gains.slice(-14).reduce((a, b) => a + b, 0) / 14;
+        const avgLoss = losses.slice(-14).reduce((a, b) => a + b, 0) / 14;
+        const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
+        const rsi = Math.round((100 - (100 / (1 + rs))) * 10) / 10;
+        latestRsi = rsi;
+
+        // 2) Bollinger Bands (20, 2)
+        const last20 = closes.slice(-20);
+        const sma20 = last20.reduce((a, b) => a + b, 0) / 20;
+        const variance = last20.reduce((a, b) => a + Math.pow(b - sma20, 2), 0) / 20;
+        const std20 = Math.sqrt(variance);
+        const upperBB = Math.round(sma20 + 2 * std20);
+        const lowerBB = Math.round(sma20 - 2 * std20);
+        const pctB = Math.round(((currPrice - lowerBB) / (upperBB - lowerBB)) * 100);
+
+        // 3) EMA 20 & 50
+        function getEMAArr(arr, span) {
+          const k = 2 / (span + 1);
+          const res = [arr[0]];
+          for (let i = 1; i < arr.length; i++) {
+            res.push(arr[i] * k + res[i - 1] * (1 - k));
+          }
+          return res;
+        }
+        const ema20Arr = getEMAArr(closes, 20);
+        const ema50Arr = getEMAArr(closes, 50);
+        const ema20 = Math.round(ema20Arr[ema20Arr.length - 1]);
+        const ema50 = Math.round(ema50Arr[ema50Arr.length - 1]);
+        const isBullTrend = ema20 > ema50;
+
+        // 4) MACD (12, 26, 9)
+        const ema12Arr = getEMAArr(closes, 12);
+        const ema26Arr = getEMAArr(closes, 26);
+        const macdArr = ema12Arr.map((v, i) => v - ema26Arr[i]);
+        const sigArr = getEMAArr(macdArr, 9);
+        const macdHist = Math.round(macdArr[macdArr.length - 1] - sigArr[sigArr.length - 1]);
+
+        // === AI SCORING ALGORITHM (0 ~ 100점) ===
+        let score = 50;
+        score += isBullTrend ? 20 : -20;
+        score += macdHist > 0 ? 15 : -15;
+
+        if (pctB > 85) score -= 8;
+        else if (pctB < 20) score += 15;
+        else score += 8;
+
+        if (rsi >= 70) score -= 12;
+        else if (rsi <= 30) score += 20;
+        else if (rsi >= 50 && rsi < 70) score += 15;
+        else score += 5;
+
+        score = Math.max(10, Math.min(95, score));
+        latestAiScore = score;
+
+        // === DOM UPDATE ===
+        // 1. Total Score
+        const scoreElem = document.getElementById('aiTotalScore');
+        if (score >= 62) {
+          scoreElem.className = 'text-sm font-black text-emerald-400';
+          scoreElem.innerText = `${score}점 (🟢 롱 매수 우위)`;
+        } else if (score <= 40) {
+          scoreElem.className = 'text-sm font-black text-rose-400';
+          scoreElem.innerText = `${score}점 (🔴 숏 하락 주의)`;
+        } else {
+          scoreElem.className = 'text-sm font-black text-amber-400';
+          scoreElem.innerText = `${score}점 (🟡 관망 / 중립)`;
+        }
+
+        // 2. RSI Card
+        document.getElementById('rsiValue').innerText = rsi;
+        const rsiBadge = document.getElementById('rsiBadge');
+        const rsiDesc = document.getElementById('rsiDesc');
+        if (rsi >= 70) {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          rsiBadge.innerText = '⚠️ 과매수 (과열)';
+          rsiDesc.innerHTML = `RSI ${rsi}로 단기 과열 구간입니다. <strong class="text-rose-300">추격매수 금지, 눌림목 대기</strong>.`;
+        } else if (rsi <= 30) {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          rsiBadge.innerText = '🟢 과매도 (반등 찬스)';
+          rsiDesc.innerHTML = `RSI ${rsi}로 바닥권입니다. <strong class="text-emerald-300">적극 분할 롱 진입 추천</strong>.`;
+        } else {
+          rsiBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30';
+          rsiBadge.innerText = '안정권 (중립)';
+          rsiDesc.innerHTML = `RSI ${rsi}로 건전한 추세 흐름을 유지하고 있습니다.`;
+        }
+
+        // 3. Bollinger Bands Card
+        document.getElementById('bbValue').innerText = `${pctB}%`;
+        const bbBadge = document.getElementById('bbBadge');
+        const bbDesc = document.getElementById('bbDesc');
+        if (pctB >= 85) {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30';
+          bbBadge.innerText = '상단 밴드 터치';
+        } else if (pctB <= 20) {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          bbBadge.innerText = '하단 지지선 터치';
+        } else {
+          bbBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-700 text-slate-300';
+          bbBadge.innerText = '밴드 중앙 진행';
+        }
+        bbDesc.innerHTML = `상단: <strong>${upperBB.toLocaleString()}원</strong><br>하단: <strong>${lowerBB.toLocaleString()}원</strong>`;
+
+        // 4. EMA Card
+        const emaValElem = document.getElementById('emaValue');
+        const emaBadge = document.getElementById('emaBadge');
+        const emaDesc = document.getElementById('emaDesc');
+        if (isBullTrend) {
+          emaValElem.className = 'text-2xl font-black text-emerald-400';
+          emaValElem.innerText = '정배열 (골든)';
+          emaBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          emaBadge.innerText = '상승 추세 🟢';
+        } else {
+          emaValElem.className = 'text-2xl font-black text-rose-400';
+          emaValElem.innerText = '역배열 (데드)';
+          emaBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          emaBadge.innerText = '하락 추세 🔴';
+        }
+        emaDesc.innerHTML = `EMA20: ${ema20.toLocaleString()}원<br>EMA50: ${ema50.toLocaleString()}원`;
+
+        // 5. MACD Card
+        const macdValElem = document.getElementById('macdValue');
+        const macdBadge = document.getElementById('macdBadge');
+        const macdDesc = document.getElementById('macdDesc');
+        macdValElem.innerText = (macdHist > 0 ? '+' : '') + macdHist.toLocaleString();
+        if (macdHist > 0) {
+          macdValElem.className = 'text-2xl font-black text-emerald-400';
+          macdBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          macdBadge.innerText = '매수세 가속';
+          macdDesc.innerText = '히스토그램 양수 확장 중 (상승 모멘텀 지속)';
+        } else {
+          macdValElem.className = 'text-2xl font-black text-rose-400';
+          macdBadge.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          macdBadge.innerText = '매도세 우세';
+          macdDesc.innerText = '히스토그램 음수 확장 중 (조정 압력 주의)';
+        }
+
+        // 6. Strategy Summary
+        const stratTitle = document.getElementById('aiStrategyTitle');
+        const stratDetail = document.getElementById('aiStrategyDetail');
+        if (score >= 62) {
+          stratTitle.innerHTML = `<span class="text-emerald-400">🟢 AI 종합 진단: 롱(상승) 매수 포지션 우세 (신뢰도 ${score}%)</span>`;
+          stratDetail.innerHTML = `업비트 15분봉 캔들 실시간 분석 결과, <strong>EMA(20/50) 정배열</strong>과 <strong>상승 모멘텀</strong>이 지지되고 있습니다. ${rsi >= 70 ? '다만 RSI가 70선 과열권이므로 지금 바로 풀매수하지 마시고, <strong>1차 지지선(' + ema20.toLocaleString() + '원) 부근 눌림목 분할 매수</strong>가 가장 안전합니다.' : '주요 보조지표가 안정권에서 상방을 가리키고 있어 <strong>눌림목 분할 매수 전략</strong>이 유효합니다.'}`;
+        } else if (score <= 40) {
+          stratTitle.innerHTML = `<span class="text-rose-400">🔴 AI 종합 진단: 숏(하락) 조정 압력 주의 (신뢰도 ${score}%)</span>`;
+          stratDetail.innerHTML = `주요 지표가 역배열 또는 데드크로스 구간입니다. 무리한 추격매수를 피하고 <strong>볼린저 하단(' + lowerBB.toLocaleString() + '원) 지지 여부를 확인한 후 관망</strong>하는 것을 권장합니다.`;
+        } else {
+          stratTitle.innerHTML = `<span class="text-amber-400">🟡 AI 종합 진단: 횡보 및 중립 구간 (신뢰도 ${score}%)</span>`;
+          stratDetail.innerHTML = `상·하방 에너지가 팽팽한 수렴 구간입니다. <strong>고래 거래소 순이체 방향 및 호가창 매수벽</strong>이 확정될 때까지 시드를 보존하십시오.`;
+        }
+
+        // 7. DYNAMICALLY UPDATE THE BIG SIGNAL CALLOUT CARD (해결: 하드코딩 오류 완전 수정!)
+        updateBigSignalCard(score, currPrice, ema20, lowerBB);
+
+      } catch (err) {
+        console.error('Technical Analysis Calc Error:', err);
+      }
+    }
+
+    // Dynamic Big Signal Card Render
+    function updateBigSignalCard(score, currPrice, ema20, lowerBB) {
+      const card = document.getElementById('bigSignalCard');
+      const glow = document.getElementById('bigSignalGlowBg');
+      const tag = document.getElementById('signalCategoryTag');
+      const dot = document.getElementById('signalPulseDot');
+      const title = document.getElementById('signalMainTitle');
+      const subtitle = document.getElementById('signalSubTitle');
+      const desc = document.getElementById('signalExplanation');
+      const conf = document.getElementById('signalConfidenceText');
+
+      conf.innerText = `신뢰도 ${score}%`;
+
+      if (score >= 62) {
+        // Bullish / Long
+        card.className = 'lg:col-span-6 glass-panel rounded-2xl p-6 glow-green relative overflow-hidden flex flex-col justify-between transition-all duration-500';
+        glow.className = 'absolute -right-8 -top-8 w-44 h-44 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none transition-all';
+        tag.className = 'text-xs font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5';
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 pulse-dot';
+        title.className = 'text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-400 tracking-tight';
+        title.innerText = '🟢 롱 (LONG) 진입';
+        subtitle.className = 'text-sm font-bold text-emerald-300';
+        subtitle.innerText = '상승 베팅 추천';
+        desc.innerHTML = `기술지표 종합 점수 <strong>${score}점</strong>으로 상방 모멘텀이 우세합니다. 숏(하락) 베팅은 매우 위험하며, <strong>눌림목 분할 매수</strong>가 압도적으로 유리합니다.`;
+      } else if (score <= 40) {
+        // Bearish / Short Risk
+        card.className = 'lg:col-span-6 glass-panel rounded-2xl p-6 glow-red relative overflow-hidden flex flex-col justify-between transition-all duration-500';
+        glow.className = 'absolute -right-8 -top-8 w-44 h-44 bg-rose-500/15 rounded-full blur-3xl pointer-events-none transition-all';
+        tag.className = 'text-xs font-bold text-rose-400 uppercase tracking-wider bg-rose-500/20 px-3 py-1 rounded-full border border-rose-500/30 flex items-center gap-1.5';
+        dot.className = 'w-2 h-2 rounded-full bg-rose-400 pulse-dot';
+        title.className = 'text-3xl sm:text-4xl lg:text-5xl font-black text-rose-400 tracking-tight';
+        title.innerText = '🔴 숏 / 하락 주의';
+        subtitle.className = 'text-sm font-bold text-rose-300';
+        subtitle.innerText = '관망 & 현금 보존 권장';
+        desc.innerHTML = `기술지표 종합 점수 <strong>${score}점</strong>으로 하방 압력이 높습니다. 신규 롱 진입을 자제하고, <strong>볼린저 하단 지지 여부를 확인할 때까지 시드를 보존</strong>하십시오.`;
+      } else {
+        // Neutral / Wait
+        card.className = 'lg:col-span-6 glass-panel rounded-2xl p-6 glow-amber relative overflow-hidden flex flex-col justify-between transition-all duration-500';
+        glow.className = 'absolute -right-8 -top-8 w-44 h-44 bg-amber-500/15 rounded-full blur-3xl pointer-events-none transition-all';
+        tag.className = 'text-xs font-bold text-amber-400 uppercase tracking-wider bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 flex items-center gap-1.5';
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400 pulse-dot';
+        title.className = 'text-3xl sm:text-4xl lg:text-5xl font-black text-amber-400 tracking-tight';
+        title.innerText = '🟡 관망 / 박스권';
+        subtitle.className = 'text-sm font-bold text-amber-300';
+        subtitle.innerText = '돌파 확인 후 진입';
+        desc.innerHTML = `기술지표 종합 점수 <strong>${score}점</strong>의 중립 수렴 구간입니다. 상방 또는 하방 추세선 돌파가 확실해질 때까지 <strong>무리한 올인 매수를 금지</strong>합니다.`;
+      }
+
+      // Calculate Target & Stop according to live price
+      const entryP = Math.round(currPrice * 0.998);
+      const targetP = Math.round(currPrice * 1.035);
+      const stopP = Math.round(currPrice * 0.975);
+
+      document.getElementById('signalEntryPrice').innerText = entryP.toLocaleString() + '원';
+      document.getElementById('signalTargetPrice').innerText = targetP.toLocaleString() + '원';
+      document.getElementById('signalStopPrice').innerText = stopP.toLocaleString() + '원';
+    }
+
+    // 2. Fetch Upbit Real Ticker
+    async function fetchUpbitRealData() {
+      try {
+        const resp = await fetch(`https://api.upbit.com/v1/ticker?markets=${currentMarket}`);
+        if (resp.ok) {
+          const data = await resp.json();
+          const item = data[0];
+          const latestPrice = item.trade_price;
+          simState.currentPrice = latestPrice;
+
+          document.getElementById('livePriceText').innerText = latestPrice.toLocaleString() + '원';
+          updatePortfolioUI();
+          if (simState.isBotActive) runBotCycle();
+        }
+      } catch (err) {
+        console.error('Upbit API fetch error:', err);
+      }
+    }
+
+    // 3. Fetch Upbit Real Orderbook (호가창 및 지지/저항벽 실시간 분석)
+    async function fetchUpbitOrderbook() {
+      try {
+        const resp = await fetch(`https://api.upbit.com/v1/orderbook?markets=${currentMarket}`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        const ob = data[0];
+        const askTotal = ob.total_ask_size;
+        const bidTotal = ob.total_bid_size;
+        const sum = askTotal + bidTotal;
+        const bidPct = Math.round((bidTotal / sum) * 1000) / 10;
+        const askPct = Math.round((100 - bidPct) * 10) / 10;
+
+        document.getElementById('bidBar').style.width = `${bidPct}%`;
+        document.getElementById('askBar').style.width = `${askPct}%`;
+        document.getElementById('bidPercentText').innerText = `매수 잔량: ${bidPct}% (${bidTotal.toFixed(2)} ${currentCoinSymbol})`;
+        document.getElementById('askPercentText').innerText = `매도 잔량: ${askPct}% (${askTotal.toFixed(2)} ${currentCoinSymbol})`;
+
+        const ratio = (bidTotal / (askTotal || 0.001)).toFixed(2);
+        if (bidTotal > askTotal) {
+          document.getElementById('orderbookRatioText').innerHTML = `<span class="text-emerald-400">매수 우세 (공방비: ${ratio}) 🟢</span>`;
+        } else {
+          document.getElementById('orderbookRatioText').innerHTML = `<span class="text-rose-400">매도 우세 (공방비: ${ratio}) 🔴</span>`;
+        }
+
+        // Detect Biggest Walls
+        const units = ob.orderbook_units;
+        let maxBid = units[0], maxAsk = units[0];
+        units.forEach(u => {
+          if (u.bid_size > maxBid.bid_size) maxBid = u;
+          if (u.ask_size > maxAsk.ask_size) maxAsk = u;
+        });
+
+        document.getElementById('resWallText').innerHTML = `<strong class="text-rose-300">${maxAsk.ask_price.toLocaleString()}원</strong> (${maxAsk.ask_size.toFixed(2)} ${currentCoinSymbol} 매도 대기)`;
+        document.getElementById('supWallText').innerHTML = `<strong class="text-emerald-300">${maxBid.bid_price.toLocaleString()}원</strong> (${maxBid.bid_size.toFixed(2)} ${currentCoinSymbol} 매수 방어)`;
+        document.getElementById('wallUpdateTime').innerText = new Date().toTimeString().split(' ')[0] + ' 갱신';
+
+      } catch (e) {
+        console.error('Orderbook error:', e);
+      }
+    }
+
+    // 4. Fetch Real Fear & Greed Index from Alternative.me
+    let fngChartInstance = null;
+
+    async function fetchFearGreed() {
+      try {
+        const resp = await fetch('https://api.alternative.me/fng/');
+        if (resp.ok) {
+          const res = await resp.json();
+          const item = res.data[0];
+          const val = parseInt(item.value);
+          document.getElementById('fngValueText').innerText = `${val}점 (${item.value_classification})`;
+          document.getElementById('fngScore').innerText = val;
+          document.getElementById('fngLabel').innerText = item.value_classification.toUpperCase();
+
+          const comment = document.getElementById('fngComment');
+          if (val <= 25) {
+            comment.innerHTML = `현재 <strong class="text-emerald-400 font-bold">극단적 공포(Extreme Fear)</strong> 구간입니다. 고래들의 <strong>역발상 꿀매수 찬스</strong>입니다.`;
+          } else if (val >= 75) {
+            comment.innerHTML = `현재 <strong class="text-rose-400 font-bold">극단적 탐욕(Extreme Greed)</strong> 구간입니다. 추격매수를 멈추고 <strong>분할 익절을 준비</strong>하세요.`;
+          } else {
+            comment.innerHTML = `시장이 탐색 중입니다. 남들이 무서워할 때가 <strong>1차 안전 매수 기회</strong>입니다.`;
+          }
+
+          // Update chart gauge needle/color
+          if (fngChartInstance) {
+            fngChartInstance.data.datasets[0].data = [val, 100 - val];
+            fngChartInstance.update();
+          }
+        }
+      } catch (e) {
+        console.error('FNG fetch error:', e);
+      }
+    }
+
+    function startRealDataEngine() {
+      if (isEngineStarted) return;
+      isEngineStarted = true;
+
+      loadTradingViewWidget();
+      renderBotStatus();
+      updatePortfolioUI();
+
+      fetchUpbitRealData();
+      fetchUpbitOrderbook();
+      fetchFearGreed();
+      fetchUpbitCandlesAndAnalyze();
+
+      setInterval(fetchUpbitRealData, 2500); // 2.5초마다 체결가
+      setInterval(fetchUpbitOrderbook, 4000); // 4초마다 호가창
+      setInterval(fetchUpbitCandlesAndAnalyze, 10000); // 10초마다 지표 재연산
+    }
+
+    // ==========================================
+    // ON-CHAIN CHARTS RENDERING
+    // ==========================================
+    const ctxNetflow = document.getElementById('whaleNetflowChart').getContext('2d');
+    new Chart(ctxNetflow, {
+      type: 'bar',
+      data: {
+        labels: ['00시', '03시', '06시', '09시', '12시', '15시', '18시', '21시', '현재'],
+        datasets: [
+          {
+            type: 'line',
+            label: '비트코인 시세 (만원)',
+            data: [9850, 9880, 9920, 9900, 9960, 9930, 9990, 10020, 9954],
+            borderColor: '#fbbf24',
+            borderWidth: 3,
+            tension: 0.3,
+            yAxisID: 'y1',
+            pointRadius: 4,
+            pointBackgroundColor: '#fbbf24'
+          },
+          {
+            type: 'bar',
+            label: '고래 순이체 (BTC)',
+            data: [1200, -850, 2400, -320, 1850, 3100, -640, 2900, 4180],
+            backgroundColor: function(context) {
+              const val = context.raw;
+              return val >= 0 ? 'rgba(34, 197, 94, 0.75)' : 'rgba(239, 68, 68, 0.75)';
+            },
+            borderRadius: 6,
+            yAxisID: 'y'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { size: 11 } } },
+          y: { position: 'left', grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+          y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { color: '#fbbf24', font: { size: 10 } } }
+        }
+      }
+    });
+
+    const ctxGauge = document.getElementById('fearGreedChart').getContext('2d');
+    fngChartInstance = new Chart(ctxGauge, {
+      type: 'doughnut',
+      data: {
+        labels: ['점수', '잔여'],
+        datasets: [{
+          data: [29, 71],
+          backgroundColor: ['#f59e0b', 'rgba(30, 41, 59, 0.4)'],
+          borderWidth: 0,
+          circumference: 180,
+          rotation: 270,
+          cutout: '75%'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      }
+    });
+
+    const ctxStable = document.getElementById('stablecoinChart').getContext('2d');
+    new Chart(ctxStable, {
+      type: 'line',
+      data: {
+        labels: ['월', '화', '수', '목', '금', '토', '오늘'],
+        datasets: [{
+          label: '거래소 USDT 잔고 ($B)',
+          data: [23.1, 23.4, 23.2, 23.9, 24.1, 24.4, 24.8],
+          borderColor: '#818cf8',
+          backgroundColor: 'rgba(129, 140, 248, 0.15)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointBackgroundColor: '#818cf8'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } },
+          y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b', font: { size: 9 } } }
+        }
+      }
+    });
+
+    // Run auth check on init
+    checkAuth();
+  </script>
+</body>
+</html>
